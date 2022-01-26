@@ -10,7 +10,7 @@
     {'id': 1, 'value': 'singleline'},
     {'id': 2, 'value': 'multline'},
     {'id': 3, 'value': 'picture'},  
-    {'id': 4, 'value': 'time'},
+    {'id': 4, 'value': 'autotime'},
     {'id': 5, 'value': 'autodate'},
     {'id': 6, 'value': 'checkbox'},
   ]
@@ -21,9 +21,12 @@
 
 
 	const { degrees, PDFDocument, rgb, StandardFonts } = PDFLib
-  function modifyPdfToday(){
+  function modifyPdfNow(){
     $values.forEach(function(item, index, array) {
-        if(item.type == 5){
+      if(item.type == 4){
+          item.value = today.format("HH:MM");
+        }
+      else if(item.type == 5){
           item.value = today.format("yyyy-mm-dd");
         }
       });
@@ -100,9 +103,6 @@
       {:else if type == 3}
       <label for="{name}">{caption}</label>
         <input type="file" bind:value="{value}" />
-      {:else if type == 4}
-        <label for="{name}">{caption}</label>
-        <input id="{name}" type="time" bind:value="{value}" />
       {:else if type == 6}
         <label for="{name}">{caption}</label>
         <input id="{name}" type="checkbox" bind:checked="{value}" />
@@ -111,20 +111,29 @@
   </form>
 </section>
 <section>
-  <form on:submit|preventDefault={modifyPdfToday}>
-    <button>Erstellen heute</button>
+  <form on:submit|preventDefault={modifyPdfNow}>
+    <button>Erstellen jetzt</button>
   </form>
   </section>
   <section>
   <form on:submit|preventDefault={modifyPdfTomorrow}>
-    <button>Erstellen morgen früh</button>
+    {#each $values as { name, caption, value, type }, i}
+      {#if type == 4}
+        <label for="{name}">{caption}</label>
+        <input id="{name}" type="time" bind:value="{value}" />
+      {/if}
+    {/each}
+    <button>Erstellen morgen</button>
   </form>
 </section>
 <section>
   <form on:submit|preventDefault={modifyPdf}>
     {#each $values as { name, caption, value, type }, i}
-      {#if type == 5}
-        <label for="{name}">{caption}</label> <input id="{name}" format="dd.mm.YYYY" type="date" bind:value="{value}" />
+      {#if type == 4}
+        <label for="{name}">{caption}</label>
+        <input id="{name}" type="time" bind:value="{value}" />
+      {:else if type == 5}
+          <label for="{name}">{caption}</label> <input id="{name}" format="dd.mm.YYYY" type="date" bind:value="{value}" />
       {/if}
     {/each}
     <button>Erstellen</button>
