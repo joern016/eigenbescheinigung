@@ -7,17 +7,21 @@ const standardValues = [
     {'name': 'testdate', 'caption'  : 'Testdatum',  'position': [75, 440], 'value': '', type: 5},
     {'name': 'testtime', 'caption'  : 'Testuhrzeit',  'position': [75, 478], 'value': '', type: 4},
     {'name': 'testperson', 'caption'  : 'Durchführender',  'position': [75, 525], 'value': '', type: 1},
-    {'name': 'signature', 'caption'  : 'Unterschriftdatum',  'position': [75, 595], 'value': '', type: 5},
+    {'name': 'signature_file', 'caption'  : 'Unterschrift',  'position': [75, 570], width: 400, height:40, 'value': '', type: 3},
+    {'name': 'signaturedate', 'caption'  : 'Unterschriftdatum',  'position': [75, 595], 'value': '', type: 5},
     {'name': 'result', 'caption'  : 'Test Negativ',  'position': [250, 635], 'value': true, type: 6},
 ];
 const storedValues = JSON.parse(localStorage.getItem("EigenbescheinigungValues"));
-let localValues = Array();
 if(storedValues){
-    localValues = storedValues;
-}else{
-    localValues = standardValues;
+    standardValues.forEach(element => {
+        storedValues.forEach(storedelement =>{
+            if (element.name == storedelement.name){
+                element.value = storedelement.value;
+            }
+        })
+    });
 }
-export const values = writable(localValues);
+export const values = writable(standardValues);
 
 values.subscribe(value => {
     localStorage.setItem("EigenbescheinigungValues", JSON.stringify(value));
