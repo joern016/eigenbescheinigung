@@ -40,17 +40,21 @@
     function delete_image(){
         showImage = false; 
         result = '';
+        input.value='';
     }
   </script>
   
   <label for="picture_file">{caption}</label>
-  <input id="picture_file"
-      bind:this={input}
-      on:change={onChange}
+  {#if !showImage}
+    <input id="picture_file"
+        bind:this={input}
+        on:change={onChange}
     type="file"
-  />
+    />
+  {:else}
+    <button on:click|preventDefault={() => delete_image()}>Bild entfernen</button>
+  {/if}
   <div bind:this={container}>
-        <button on:click|preventDefault={() => delete_image}>X</button>
       {#if showImage}
           <img bind:this={image} src="{result}" alt="Preview" />
       {:else}

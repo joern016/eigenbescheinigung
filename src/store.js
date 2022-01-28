@@ -1,5 +1,6 @@
 import { writable } from "svelte/store";
 
+
 const standardValues = [
     {'name': 'name', 'caption'  : 'Name',  'position': [75, 240], 'value': '', type: 1}, 
     {'name': 'address', 'caption'  : 'Adresse',  'position': [75, 300], 'value': '', type: 2},
@@ -23,6 +24,20 @@ if(storedValues){
 }
 export const values = writable(standardValues);
 
+let storedRemember=localStorage.getItem('EigenbescheinigungRemember');
+if (storedRemember && storedRemember == 'true'){
+    storedRemember = true;
+}else{
+    storedRemember = false;
+}
+export const remember = writable(storedRemember);
+
 values.subscribe(value => {
-    localStorage.setItem("EigenbescheinigungValues", JSON.stringify(value));
+    if(localStorage.getItem('EigenbescheinigungRemember') == "true"){
+        localStorage.setItem("EigenbescheinigungValues", JSON.stringify(value));
+    }
+});
+
+remember.subscribe(value => {
+        localStorage.setItem("EigenbescheinigungRemember", JSON.stringify(value));
 });

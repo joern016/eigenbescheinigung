@@ -4,7 +4,7 @@
   }
 </style>
 <script>
-  import {values} from './store.js';
+  import {values, remember} from './store.js';
 	import Pic from './Pic.svelte';
 
   let types = [
@@ -68,7 +68,7 @@
       for (let i = 0; i < $values.length; i++) {
         let item = $values[i];
         let drawValue = item.value;
-        if(item.type == 5 &&drawValue){
+        if(item.type == 5 && drawValue){
           drawValue = new Date(item.value).format("dd.mm.yyyy");
         }
         if(item.type == 6){
@@ -108,11 +108,23 @@
 			// Trigger the browser to download the PDF document
 			download(pdfBytes, "eigenbescheinigung.pdf", "application/pdf");
     }
+  let checkbox;
+  function change_remember(){
+    if($remember){
+      remember.set(false);
+      localStorage.removeItem("EigenbescheinigungValues");
+    }else{
+      remember.set(true);
+    }
+  }
 </script>
 
 <section>
   <form on:submit|preventDefault={modifyPdf}>
     <header><h2 class="super">Einverständniserklärung</h2></header>
+    <input id="check_remember" type="checkbox" on:click="{change_remember}" checked="{$remember}" bind:this="{checkbox}" />
+    <label for="check_remember">Daten lokal speichern</label>
+    <br/>
     {#each $values as { name, caption, value, type }, i}
       {#if type == 1}
       <label for="{name}">{caption}</label>
@@ -123,8 +135,9 @@
       {:else if type == 3}
         <Pic caption="{caption}" bind:result="{value}"></Pic>
       {:else if type == 6}
-        <label for="{name}">{caption}</label>
+        <br />
         <input id="{name}" type="checkbox" bind:checked="{value}" />
+        <label for="{name}">{caption}</label>
       {/if}
     {/each}
   </form>
