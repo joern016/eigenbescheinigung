@@ -25,7 +25,7 @@ if(storedValues){
 export const values = writable(standardValues);
 
 let storedRemember=localStorage.getItem('EigenbescheinigungRemember');
-if (storedRemember && storedRemember == 'true'){
+if (!storedRemember || storedRemember == 'true'){
     storedRemember = true;
 }else{
     storedRemember = false;

@@ -121,7 +121,7 @@
 
 <section>
   <form on:submit|preventDefault={modifyPdf}>
-    <header><h2 class="super">Einverständniserklärung</h2></header>
+    <header><h2 class="super">Eigenbescheinigung Kita</h2></header>
     <input id="check_remember" type="checkbox" on:click="{change_remember}" checked="{$remember}" bind:this="{checkbox}" />
     <label for="check_remember">Daten lokal speichern</label>
     <br/>
