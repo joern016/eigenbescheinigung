@@ -4,6 +4,8 @@ import resolve from '@rollup/plugin-node-resolve';
 import livereload from 'rollup-plugin-livereload';
 import { terser } from 'rollup-plugin-terser';
 import css from 'rollup-plugin-css-only';
+import copy from 'rollup-plugin-copy'
+
 
 const production = !process.env.ROLLUP_WATCH;
 
@@ -57,6 +59,12 @@ export default {
 			dedupe: ['svelte']
 		}),
 		commonjs(),
+		copy({
+			targets: [
+				{ src: 'node_modules/pdf-lib/dist/pdf-lib.min.js', dest: 'public/assets/js/pdf-lib' },
+				{ src: 'node_modules/pdf-lib/dist/pdf-lib.min.js.map', dest: 'public/assets/js/pdf-lib' },
+			]
+		  }),
 
 		// In dev mode, call `npm run start` once
 		// the bundle has been generated

@@ -6,6 +6,8 @@
 <script>
   import {values, remember} from './store.js';
 	import Pic from './Pic.svelte';
+  import download from 'downloadjs';
+
 
   let types = [
     {'id': 1, 'value': 'singleline'},
@@ -23,7 +25,7 @@
 
   
 
-	const { degrees, PDFDocument, rgb, StandardFonts } = PDFLib
+	const { PDFDocument, rgb, StandardFonts } = PDFLib
   function modifyPdfNow(){
     $values.forEach(function(item, index, array) {
       if(item.type == 4){
