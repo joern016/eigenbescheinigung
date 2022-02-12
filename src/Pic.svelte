@@ -2,6 +2,7 @@
 	import { onMount } from 'svelte';
     export let caption;
     export let result
+    let error_text = "";
     let input;
     let container;
     let image;
@@ -22,35 +23,47 @@
     }
     function onChange() {
       const file = input.files[0];
-          
-      if (file) {
-              showImage = true;
-  
-        const reader = new FileReader();
-        reader.addEventListener("load", function () {
-          image.setAttribute("src", reader.result);
-          result = reader.result;
-        });
-        reader.readAsDataURL(file);
-              
-              return;
-      } 
+      error_text = "";
+      if (!file.type.match(".*(png|jpg|jpeg).*")){
+        error_text="Dateityp muss png, jpg oder jpeg sein."
+      }
+      else{
+        if (file) {
+                showImage = true;
+    
+          const reader = new FileReader();
+          reader.addEventListener("load", function () {
+            image.setAttribute("src", reader.result);
+            result = reader.result;
+          });
+          reader.readAsDataURL(file);
+                
+                return;
+        } 
+      }
           showImage = false; 
     }
     function delete_image(){
         showImage = false; 
         result = '';
-        input.value='';
+        if(input){
+          input.value='';
+        }
     }
   </script>
   
-  <label for="picture_file">{caption}</label>
+  <label for="picture_file">{caption} (nur png oder jpg)</label>
   {#if !showImage}
     <input id="picture_file"
         bind:this={input}
         on:change={onChange}
     type="file"
     />
+    {#if error_text != ""}
+      <article>
+        <aside class="error"><p>{error_text}</p></aside>
+      </article>
+    {/if}
   {:else}
     <button on:click|preventDefault={() => delete_image()}>Bild entfernen</button>
   {/if}
@@ -76,6 +89,9 @@
     }
     img {
       width: 100%;
+    }
+    .error{
+      background-color: lightcoral;
     }
   </style>
   

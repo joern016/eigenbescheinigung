@@ -81,9 +81,15 @@
           }
         }
         if(item.type == 3 && drawValue){ 
-          const pngImage = await pdfDoc.embedPng(drawValue);
-          let size = pngImage.scaleToFit(item.width, item.height);
-          firstPage.drawImage(pngImage, {
+          let image;
+          if(drawValue.match('data:image/png.*')){
+            image = await pdfDoc.embedPng(drawValue);
+          }else{
+            image = await pdfDoc.embedJpg(drawValue);
+          }
+          
+          let size = image.scaleToFit(item.width, item.height);
+          firstPage.drawImage(image, {
             x: item.position[0],
             y: height - item.position[1],
             width: size.width,
@@ -117,6 +123,7 @@
       localStorage.removeItem("EigenbescheinigungValues");
     }else{
       remember.set(true);
+      values.set($values);
     }
   }
 </script>
