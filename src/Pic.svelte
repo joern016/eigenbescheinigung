@@ -4,9 +4,7 @@
     export let result
     let error_text = "";
     let input;
-    let container;
     let image;
-    let placeholder;
     let showImage = (result ? true : false);
 
     function getBase64Image(img) {
@@ -67,11 +65,9 @@
   {:else}
     <button on:click|preventDefault={() => delete_image()}>Bild entfernen</button>
   {/if}
-  <div bind:this={container}>
+  <div>
       {#if showImage}
           <img bind:this={image} src="{result}" alt="Preview" />
-      {:else}
-          <span bind:this={placeholder}></span>
       {/if}
   </div>
   
