@@ -128,55 +128,61 @@
   }
 </script>
 
-<section>
-  <form on:submit|preventDefault={modifyPdf}>
-    <header><h2 class="super">Eigenbescheinigung Kita</h2></header>
-    <input id="check_remember" type="checkbox" on:click="{change_remember}" checked="{$remember}" bind:this="{checkbox}" />
-    <label for="check_remember">Daten lokal speichern</label>
-    <br/>
-    {#each $values as { name, caption, value, type }, i}
-      {#if type == 1}
-      <label for="{name}">{caption}</label>
-        <input id="{name}" type="text" bind:value="{value}" />
-      {:else if type == 2}
+<main>
+  <section>
+    <form on:submit|preventDefault={modifyPdf}>
+      <header><h2 class="super">Eigenbescheinigung Kita</h2></header>
+      <input id="check_remember" type="checkbox" on:click="{change_remember}" checked="{$remember}" bind:this="{checkbox}" />
+      <label for="check_remember">Daten lokal speichern</label>
+      <br/>
+      {#each $values as { name, caption, value, type }, i}
+        {#if type == 1}
         <label for="{name}">{caption}</label>
-        <textarea id="{name}" bind:value></textarea>
-      {:else if type == 3}
-        <Pic caption="{caption}" bind:result="{value}"></Pic>
-      {:else if type == 6}
-        <br />
-        <input id="{name}" type="checkbox" bind:checked="{value}" />
-        <label for="{name}">{caption}</label>
-      {/if}
-    {/each}
-  </form>
-</section>
-<section>
-  <form on:submit|preventDefault={modifyPdfNow}>
-    <button>Erstellen jetzt</button>
-  </form>
+          <input id="{name}" type="text" bind:value="{value}" />
+        {:else if type == 2}
+          <label for="{name}">{caption}</label>
+          <textarea id="{name}" bind:value></textarea>
+        {:else if type == 3}
+          <Pic caption="{caption}" bind:result="{value}"></Pic>
+        {:else if type == 6}
+          <br />
+          <input id="{name}" type="checkbox" bind:checked="{value}" />
+          <label for="{name}">{caption}</label>
+        {/if}
+      {/each}
+    </form>
   </section>
   <section>
-  <form on:submit|preventDefault={modifyPdfTomorrow}>
-    {#each $values as { name, caption, value, type }, i}
-      {#if type == 4}
-        <label for="{name}">{caption}</label>
-        <input id="{name}" type="time" bind:value="{value}" />
-      {/if}
-    {/each}
-    <button>Erstellen morgen</button>
-  </form>
-</section>
-<section>
-  <form on:submit|preventDefault={modifyPdf}>
-    {#each $values as { name, caption, value, type }, i}
-      {#if type == 4}
-        <label for="{name}">{caption}</label>
-        <input id="{name}" type="time" bind:value="{value}" />
-      {:else if type == 5}
-          <label for="{name}">{caption}</label> <input id="{name}" format="dd.mm.YYYY" type="date" bind:value="{value}" />
-      {/if}
-    {/each}
-    <button>Erstellen</button>
-  </form>
-</section>
+    <form on:submit|preventDefault={modifyPdfNow}>
+      <button>Erstellen jetzt</button>
+    </form>
+    </section>
+    <section>
+    <form on:submit|preventDefault={modifyPdfTomorrow}>
+      {#each $values as { name, caption, value, type }, i}
+        {#if type == 4}
+          <label for="{name}">{caption}</label>
+          <input id="{name}" type="time" bind:value="{value}" />
+        {/if}
+      {/each}
+      <button>Erstellen morgen</button>
+    </form>
+  </section>
+  <section>
+    <form on:submit|preventDefault={modifyPdf}>
+      {#each $values as { name, caption, value, type }, i}
+        {#if type == 4}
+          <label for="{name}">{caption}</label>
+          <input id="{name}" type="time" bind:value="{value}" />
+        {:else if type == 5}
+            <label for="{name}">{caption}</label> <input id="{name}" format="dd.mm.YYYY" type="date" bind:value="{value}" />
+        {/if}
+      {/each}
+      <button>Erstellen2</button>
+    </form>
+  </section>
+</main>
+<footer>
+  Es werden keine Daten übertragen. <br />
+  Erstellt mit <a href="https://www.svelte.dev>Svelte</a>, PDF-Lib und mvp.css
+</footer>
